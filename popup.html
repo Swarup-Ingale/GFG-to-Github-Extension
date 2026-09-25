@@ -2,35 +2,90 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>GFG to GitHub Sync</title>
     <style>
+        /* CSS Variables for Theming */
         :root {
+            /* Dark Mode (Default) */
             --bg-color: #0d1117;
             --container-bg: #161b22;
             --text-color: #c9d1d9;
             --border-color: #30363d;
             --accent-color: #238636;
             --accent-hover: #2ea043;
+            --input-bg: #010409;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --link-color: #58a6ff;
+            --link-hover: #79c0ff;
         }
 
+        [data-theme="light"] {
+            --bg-color: #f6f8fa;
+            --container-bg: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --accent-color: #2da44e;
+            --accent-hover: #2c974b;
+            --input-bg: #ffffff;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --link-color: #0969da;
+            --link-hover: #0550ae;
+        }
+
+        [data-theme="hacker"] {
+            --bg-color: #050505;
+            --container-bg: #0a0a0a;
+            --text-color: #00ff00;
+            --border-color: #004400;
+            --accent-color: #008800;
+            --accent-hover: #00aa00;
+            --input-bg: #001100;
+            --font-family: "Courier New", Courier, monospace;
+            --link-color: #00cc00;
+            --link-hover: #00ff00;
+        }
+
+        /* Base Styles & Animations */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-family: var(--font-family);
             background-color: var(--bg-color);
             color: var(--text-color);
-            width: 320px;
+            width: 340px;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            min-height: 280px;
+            min-height: 300px;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
+            transition: border-color 0.4s ease;
+        }
+
+        .title-wrapper {
+            display: flex;
+            align-items: center;
         }
 
         .header img {
@@ -44,7 +99,24 @@
             font-size: 16px;
             margin: 0;
             font-weight: 600;
-            color: #fff;
+        }
+
+        /* Theme Selector */
+        .theme-switch {
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch:focus {
+            border-color: var(--link-color);
         }
 
         label {
@@ -52,85 +124,127 @@
             font-size: 12px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #8b949e;
+            opacity: 0.8;
         }
 
         input {
             width: 100%;
-            padding: 8px 12px;
+            padding: 9px 12px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            background-color: #010409;
+            background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             color: var(--text-color);
             font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
         }
 
         input:focus {
             outline: none;
-            border-color: #58a6ff;
+            border-color: var(--link-color);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
         }
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 11px;
             background-color: var(--accent-color);
             color: #ffffff;
-            border: 1px solid rgba(240, 246, 252, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
-            transition: background-color 0.2s;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         button:hover {
             background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Save Animation */
+        .saving {
+            pointer-events: none;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         #status {
             margin-top: 15px;
             font-size: 13px;
-            color: #3fb950;
+            color: var(--accent-color);
             font-weight: 600;
             text-align: center;
             min-height: 15px;
+            transition: color 0.3s ease;
         }
 
-        /* New Footer Styles */
         .footer {
             margin-top: auto;
             padding-top: 15px;
             border-top: 1px solid var(--border-color);
             text-align: center;
             font-size: 11px;
+            line-height: 1.8;
+            transition: border-color 0.4s ease;
         }
 
         .footer a {
-            color: #58a6ff;
+            color: var(--link-color);
             text-decoration: none;
             margin: 0 4px;
-            transition: color 0.2s;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
         .footer a:hover {
             text-decoration: underline;
-            color: #79c0ff;
+            color: var(--link-hover);
         }
 
         .dev-credit {
-            color: #8b949e;
             margin-bottom: 6px;
             display: block;
+            opacity: 0.7;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <img src="icon48.png" alt="Logo" onerror="this.style.display='none'">
-        <h2>GFG to GitHub Sync</h2>
+        <div class="title-wrapper">
+            <img src="icon48.png" alt="Logo" onerror="this.style.display='none'">
+            <h2>GFG Sync</h2>
+        </div>
+        <select id="themeSelect" class="theme-switch">
+            <option value="dark">🌙 Dark</option>
+            <option value="light">☀️ Light</option>
+            <option value="hacker">💻 Hacker</option>
+        </select>
     </div>
 
     <label>GitHub Personal Access Token</label>
@@ -142,12 +256,14 @@
     <button id="save">Save Configuration</button>
     <div id="status"></div>
 
-    <!-- Developer Details Footer -->
+    <!-- Custom Developer Details Footer -->
     <div class="footer">
         <span class="dev-credit">Developed by Swarup Ingale</span>
-        <a href="https://github.com/Swarup-Ingale" target="_blank">GitHub</a> |
-        <a href="https://linkedin.com/in/swarup-ingale-45864b295" target="_blank">LinkedIn</a> |
         <a href="https://swarupingale.pages.dev/" target="_blank">Portfolio</a> |
+        <a href="https://linkedin.com/in/swarup-ingale-45864b295" target="_blank">LinkedIn</a> |
+        <a href="https://github.com/Swarup-Ingale" target="_blank">GitHub</a><br>
+        <a href="https://leetcode.com/u/SW4LE/" target="_blank">LeetCode</a> |
+        <a href="https://www.geeksforgeeks.org/profile/swaruping2ptu" target="_blank">GFG</a> |
         <a href="https://github.com/Swarup-Ingale/GFG-to-Github-Extension/issues" target="_blank">Issues</a>
     </div>
 
