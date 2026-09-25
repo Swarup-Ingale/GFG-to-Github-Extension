@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>GFG to GitHub Sync</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --container-bg: #161b22;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --accent-color: #238636;
+            --accent-hover: #2ea043;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            width: 320px;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .header img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 0;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #8b949e;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            background-color: #010409;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #58a6ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: 1px solid rgba(240, 246, 252, 0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        #status {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #3fb950;
+            font-weight: 600;
+            text-align: center;
+            min-height: 15px;
+        }
+
+        /* New Footer Styles */
+        .footer {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .footer a {
+            color: #58a6ff;
+            text-decoration: none;
+            margin: 0 4px;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+            color: #79c0ff;
+        }
+
+        .dev-credit {
+            color: #8b949e;
+            margin-bottom: 6px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <img src="icon48.png" alt="Logo" onerror="this.style.display='none'">
+        <h2>GFG to GitHub Sync</h2>
+    </div>
+
+    <label>GitHub Personal Access Token</label>
+    <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+
+    <label>Repository Name</label>
+    <input type="text" id="repo" placeholder="username/repo-name">
+
+    <button id="save">Save Configuration</button>
+    <div id="status"></div>
+
+    <!-- Developer Details Footer -->
+    <div class="footer">
+        <span class="dev-credit">Developed by Swarup Ingale</span>
+        <a href="https://github.com/Swarup-Ingale" target="_blank">GitHub</a> |
+        <a href="https://linkedin.com/in/swarup-ingale-45864b295" target="_blank">LinkedIn</a> |
+        <a href="https://swarupingale.pages.dev/" target="_blank">Portfolio</a> |
+        <a href="https://github.com/Swarup-Ingale/GFG-to-Github-Extension/issues" target="_blank">Issues</a>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>

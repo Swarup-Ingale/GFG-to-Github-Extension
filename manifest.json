@@ -1,0 +1,52 @@
+{
+    "manifest_version": 3,
+    "name": "GFG to GitHub Auto Sync",
+    "version": "1.1",
+    "description": "Manually push your accepted GeeksforGeeks solutions to GitHub.",
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "https://api.github.com/*",
+        "https://*.geeksforgeeks.org/*",
+        "https://geeksforgeeks.org/*"
+    ],
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.geeksforgeeks.org/*",
+                "https://geeksforgeeks.org/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "inject.js"
+            ],
+            "matches": [
+                "https://*.geeksforgeeks.org/*",
+                "https://geeksforgeeks.org/*"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icon16.png",
+            "48": "icon48.png",
+            "128": "icon128.png"
+        }
+    }
+}
